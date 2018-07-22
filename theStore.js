@@ -1,11 +1,22 @@
-function todo(state = [], action) {
+function todos(state = [], action) {
     //if we invoke this method with the ADD_TODO's action..
     if (action.type === 'ADD_TODO') {
         //return new state object to replace old. 
         return state.concat([action.todo]); 
     }
+    switch (action.type) {
+        case 'ADD_TODO': 
+            return state.concat([action.todo]); 
+        case 'REMOVE_TODO':
+            return state.filter((todo) => todo.id !== action.id); 
+        case 'TOGGLE_TODO':
+            return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, {complete: !todo.complete})
+            ); 
+        default: 
+            return state; 
+    }
     //otherwise, 
-    return state;
+    // return state;
 }
 
 
@@ -20,33 +31,6 @@ function createStore(reducer) {
 
     let state; 
     let listeners = []; 
-
-    let addToDo = {
-        type: 'ADD_TODO',
-        todo: {
-            id: 0,
-            name: 'Learn Redux',
-            complete: false,
-        }
-    };
-
-    let removeTodo = {
-        type: 'REMOVE_TODO',
-        id: 0, 
-    };
-
-    let toggle = {
-        type: 'TOGGLE_TODO',
-        id: 0, 
-    };
-
-    let addGoal = {
-        type: 'ADD_GOAL', 
-        goal: {
-            id: 0,
-            name: 'Run a Marathon'
-        }
-    };
 
     const getState = () => state;
 
@@ -78,5 +62,5 @@ function createStore(reducer) {
 
 }
 
-const store = createStore(todo);
+const store = createStore(todos);
 // store.dispatch({type:'ADD_TODO', todo:{id:0, name: 'whatever'}});
