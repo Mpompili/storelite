@@ -1,9 +1,5 @@
 function todos(state = [], action) {
     //if we invoke this method with the ADD_TODO's action..
-    if (action.type === 'ADD_TODO') {
-        //return new state object to replace old. 
-        return state.concat([action.todo]); 
-    }
     switch (action.type) {
         case 'ADD_TODO': 
             return state.concat([action.todo]); 
@@ -15,10 +11,25 @@ function todos(state = [], action) {
         default: 
             return state; 
     }
-    //otherwise, 
-    // return state;
 }
 
+function goals(state = [], action) {
+    switch(action.type) {
+        case 'ADD_GOAL':
+            return state.concat([action.goal]); 
+        case 'REMOVE_GOAL': 
+            return state.filter(goal => goal.id !== action.id);
+        default: 
+            return state; 
+    }
+}
+
+function rootReducer (state = {}, action) {
+    return {
+        todos: todos(state.todos, action),
+        goals: goals(state.goals, action),
+    };
+}
 
 function createStore(reducer) {
     // four parts
@@ -62,5 +73,5 @@ function createStore(reducer) {
 
 }
 
-const store = createStore(todos);
+const store = createStore(rootReducer);
 // store.dispatch({type:'ADD_TODO', todo:{id:0, name: 'whatever'}});
