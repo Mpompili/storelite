@@ -1,8 +1,8 @@
-function reducer(state = [], action) {
+function reducer(state = {}, action) {
     //if we invoke this method with the ADD_TODO's action..
     if (action.type === 'ADD_TODO') {
         //return new state object to replace old. 
-        return Object.assign([], state, [action.todo]);
+        return Object.assign({}, state, [action.todo]);
     }
     //otherwise, 
     return state;
@@ -64,7 +64,7 @@ function createStore() {
     };
 
     const dispatch = (action) => { 
-        if (listeners.length > 0) listeners.forEach(listener => listener());
+        listeners.forEach(listener => listener());
         
         // uses reducer to create to state to update store. 
         
