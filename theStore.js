@@ -1,4 +1,4 @@
-function reducer(state = [], action) {
+function todo(state = [], action) {
     //if we invoke this method with the ADD_TODO's action..
     if (action.type === 'ADD_TODO') {
         //return new state object to replace old. 
@@ -9,7 +9,7 @@ function reducer(state = [], action) {
 }
 
 
-function createStore() {
+function createStore(reducer) {
     // four parts
         // private = but can be accessed with public facing api 
     // 1. The internal state
@@ -78,5 +78,5 @@ function createStore() {
 
 }
 
-const store = createStore();
-store.dispatch({type:'ADD_TODO', todo:{id:0, name: 'whatever'}});
+const store = createStore(todo);
+// store.dispatch({type:'ADD_TODO', todo:{id:0, name: 'whatever'}});
