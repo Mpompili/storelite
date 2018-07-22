@@ -1,3 +1,14 @@
+function reducer(state = [], action) {
+    //if we invoke this method with the ADD_TODO's action..
+    if (action.type === 'ADD_TODO') {
+        //return new state object to replace old. 
+        return Object.assign([], state, [action.todo]);
+    }
+    //otherwise, 
+    return state;
+}
+
+
 function createStore() {
     // four parts
         // private = but can be accessed with public facing api 
@@ -45,14 +56,29 @@ function createStore() {
         by retunning a function that will filter out the cb within the listeners array. 
         */
         listeners.push(listener); 
+
+        // unsubscribe()
         return () => { 
             listeners = listeners.filter((l) => l !== listener);
         };
     };
 
+    const dispatch = (action) => { 
+        if (listeners.length > 0) listeners.forEach(listener => listener());
+        
+        // uses reducer to create to state to update store. 
+        
+        state = reducer(state, action);  
+
+    };
+
     return {
         getState, 
         subscribe,
+        dispatch
     };
 
 }
+
+const store = createStore();
+store.dispatch({type:'ADD_TODO', todo:{id:0, name: 'whatever'}});
